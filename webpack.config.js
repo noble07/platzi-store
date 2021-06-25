@@ -13,6 +13,15 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      '@components': path.resolve(__dirname, 'src/components/'),
+      '@containers': path.resolve(__dirname, 'src/containers/'),
+      '@context': path.resolve(__dirname, 'src/context/'),
+      '@hooks': path.resolve(__dirname, 'src/hooks/'),
+      '@routes': path.resolve(__dirname, 'src/routes/'),
+      '@styles': path.resolve(__dirname, 'src/styles/'),
+      '@assets': path.resolve(__dirname, 'src/assets/'),
+    },
   },
   module: {
     rules: [
@@ -40,6 +49,10 @@ module.exports = {
           'css-loader',
           'stylus-loader',
         ],
+      },
+      {
+        test: /\.(png|jpg)$/i,
+        type: 'asset/resource',
       },
     ],
   },
