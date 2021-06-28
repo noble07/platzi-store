@@ -7,10 +7,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    home: './src/index.js',
+    header: './src/Header/index.js',
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.tsx'],
@@ -83,5 +87,29 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        deafult: false,
+        commons: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          chunks: 'all',
+          name: 'commons',
+          filename: 'assets/common.[chunkhash].js',
+          reuseExistingChunk: true,
+          enforce: true,
+          priority: 20,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all',
+          name: 'vendors',
+          filename: 'assets/vendor.[chunkhash].js',
+          reuseExistingChunk: true,
+          enforce: true,
+          priority: 10,
+        },
+      },
+    },
   },
 };
